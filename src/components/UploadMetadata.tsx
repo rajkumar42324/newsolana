@@ -4,7 +4,6 @@ import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { WebBundlr } from '@bundlr-network/client';
 import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { useWallet } from '@solana/wallet-adapter-react';
-
 import { notify } from '../utils/notifications';
 
 const bundlers = [
@@ -21,7 +20,7 @@ export const UploadMetadata: FC = ({}) => {
   const [provider, setProvider] = useState(null);
   const [address, setAddress] = useState(null);
   const [bundlr, setBundlr] = useState(null);
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState(bundlers[0]); // Default to mainnet
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -57,10 +56,11 @@ export const UploadMetadata: FC = ({}) => {
         { providerUrl: 'https://api.devnet.solana.com' }
       );
     } else {
-       bundler = new WebBundlr(
+      bundler = new WebBundlr(
         `${selected.name}`,
         'solana',
-        provider
+        provider,
+        { providerUrl: 'https://api.mainnet-beta.solana.com' } // Mainnet provider URL
       );
     }
 
