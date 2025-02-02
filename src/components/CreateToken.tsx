@@ -74,7 +74,7 @@ export const CreateToken: FC = () => {
           mintKeypair.publicKey,
           tokenATA,
           publicKey,
-          form.amount * Math.pow(15, form.decimals),
+          BigInt(form.amount) * BigInt(Math.pow(10, form.decimals)), // Use BigInt for large numbers
         ),
         createMetadataInstruction
       );
