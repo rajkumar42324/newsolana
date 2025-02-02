@@ -50,7 +50,7 @@ export const CreateToken: FC = () => {
         },
       );
 
-      const amountInSmallestUnit = BigInt(form.amount) * BigInt(10) ** BigInt(form.decimals);
+      const amountInSmallestUnit = BigInt(form.amount) * BigInt(Math.pow(10, Number(form.decimals)));
 
       const createNewTokenTransaction = new Transaction().add(
         SystemProgram.createAccount({
