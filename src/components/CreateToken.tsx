@@ -7,11 +7,11 @@ import { createCreateMetadataAccountV3Instruction, PROGRAM_ID } from '@metaplex-
 export const CreateToken: FC = () => {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
-  const [tokenName, setTokenName] = useState('')
-  const [symbol, setSymbol] = useState('')
-  const [metadata, setMetadata] = useState('')
-  const [amount, setAmount] = useState('')
-  const [decimals, setDecimals] = useState('')
+  const [tokenName, setTokenName] = useState('');
+  const [symbol, setSymbol] = useState('');
+  const [metadata, setMetadata] = useState('');
+  const [amount, setAmount] = useState('');
+  const [decimals, setDecimals] = useState('');
 
   const onClick = useCallback(async (form) => {
       const lamports = await getMinimumBalanceForRentExemptMint(connection);
@@ -50,6 +50,8 @@ export const CreateToken: FC = () => {
         },
       );
 
+      const amountInSmallestUnit = BigInt(form.amount) * BigInt(10) ** BigInt(form.decimals);
+
       const createNewTokenTransaction = new Transaction().add(
         SystemProgram.createAccount({
             fromPubkey: publicKey,
@@ -74,7 +76,7 @@ export const CreateToken: FC = () => {
           mintKeypair.publicKey,
           tokenATA,
           publicKey,
-          BigInt(form.amount) * BigInt(Math.pow(10, form.decimals)), // Use BigInt for large numbers
+          amountInSmallestUnit,
         ),
         createMetadataInstruction
       );
